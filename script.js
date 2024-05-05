@@ -11,3 +11,9 @@ function dragDrop() {
     this.parentNode.insertBefore(draggedImage, this);
     draggedImage.parentNode.insertBefore(currentImage, draggedImage.nextSibling);
 }
+
+function dragEnd() {
+    draggedImage.style.display = 'block';
+    draggedImage = null;
+    currentImage = null;
+}
