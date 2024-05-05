@@ -1,42 +1,13 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const images = document.querySelectorAll('.image');
+let currentImage = null;
 
-    let draggedImage = null;
+function dragStart() {
+    draggedImage = this;
+    currentImage = this.nextSibling;
+    setTimeout(() => this.style.display = 'none', 0);
+}
 
-    images.forEach(image => {
-        image.addEventListener('dragstart', dragStart);
-        image.addEventListener('dragend', dragEnd);
-        image.addEventListener('dragover', dragOver);
-        image.addEventListener('dragenter', dragEnter);
-        image.addEventListener('dragleave', dragLeave);
-        image.addEventListener('drop', dragDrop);
-    });
-
-    function dragStart() {
-        draggedImage = this;
-        setTimeout(() => this.style.display = 'none', 0);
-    }
-
-    function dragEnd() {
-        draggedImage.style.display = 'block';
-        draggedImage = null;
-    }
-
-    function dragOver(e) {
-        e.preventDefault();
-    }
-
-    function dragEnter(e) {
-        e.preventDefault();
-        this.style.border = '2px dashed #000';
-    }
-
-    function dragLeave() {
-        this.style.border = 'none';
-    }
-
-    function dragDrop() {
-        this.style.border = 'none';
-        this.parentNode.insertBefore(draggedImage, this);
-    }
-});
+function dragDrop() {
+    this.style.border = 'none';
+    this.parentNode.insertBefore(draggedImage, this);
+    draggedImage.parentNode.insertBefore(currentImage, draggedImage.nextSibling);
+}
