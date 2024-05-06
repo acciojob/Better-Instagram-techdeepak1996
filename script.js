@@ -1,7 +1,19 @@
-let images = document.querySelectorAll('.image');
-images.forEach((img) => {
-    img.addEventListener('dragstart', dragStart);
-    img.addEventListener('dragover', (e) => e.preventDefault());
-    img.addEventListener('drop', dragDrop);
-    img.addEventListener('dragend', dragEnd);
-});
+let currentImage = null;
+
+function dragStart() {
+    draggedImage = this;
+    currentImage = this.nextSibling;
+    setTimeout(() => this.style.display = 'none', 0);
+}
+
+function dragDrop() {
+    this.style.border = 'none';
+    this.parentNode.insertBefore(draggedImage, this);
+    draggedImage.parentNode.insertBefore(currentImage, draggedImage.nextSibling);
+}
+
+function dragEnd() {
+    draggedImage.style.display = 'block';
+    draggedImage = null;
+    currentImage = null;
+}
